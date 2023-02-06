@@ -3,8 +3,13 @@ class Inventory:
       self.items = items
     
     def view_inventory(self):
-      print(self.items)
+      print("You have")
+      for item in self.items:
+        print(item.name)    
+
+    def add_item(self, item):
+      self.items.append(item)
+      print("You add "+item.name+" to your inventory")
     
-    #place holder for now
-    def add_item(self):
-       print(self.items)
+    def remove_item(self):
+      print("placeholder")
