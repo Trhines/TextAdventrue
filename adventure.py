@@ -4,8 +4,21 @@ import inventory
 import steps
 
 blank_player = player.Player("Empty", 0, [])
+default_save_data = [blank_player, blank_player, blank_player]
 
-game = game_manager.Game_manager([blank_player, blank_player, blank_player], None)
+game = game_manager.Game_manager(default_save_data, None)
+
+def clear_save_data():
+    x = input("\nClear all saved Data? \n 1-yes \n 2-no \n")
+    if x == "1":
+        print("----------------------")
+        game.save_slots = default_save_data
+        print("data cleard\n")
+        main_menu()
+    if x == "2":
+        print("return to main menu\n")
+        main_menu()
+
 
 def start_game():
 
@@ -46,7 +59,7 @@ def main_menu():
         select_game_file(game.save_slots)
 
     if x == "2":
-        print("Clearing data")
+        clear_save_data()
 
     if x == "3":
         print("exiting program")
