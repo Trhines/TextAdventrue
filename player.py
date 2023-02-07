@@ -1,7 +1,6 @@
 class Player:
-    def __init__(self, name, step, inventory):
+    def __init__(self, name, inventory=None):
       self.name = name
-      self.state = step
       self.inventory= inventory
        
 
