@@ -4,9 +4,7 @@ import ui_element
 class Game_manager:
     def __init__(self, ui_handler, current_player=None):
 
-        self.slot_1 = player.Player("Empty")
-        self.slot_2 = player.Player("Empty")
-        self.slot_3 = player.Player("Empty")
+        self.blank = player.Player("Empty")
 
         self.main_menu_ui = ui_element.UI_element(
             ["\nEnter a number to select","1-Play game", "2-Clear save data", "3-Exit"],
@@ -81,7 +79,7 @@ class Game_manager:
         )
 
         self.ui = ui_handler
-        self.save_slots = [self.slot_1, self.slot_2, self.slot_3]
+        self.save_slots = [self.blank, self.blank, self.blank]
         self.current_player = current_player
 
     def no_current_player(self):
@@ -179,7 +177,7 @@ class Game_manager:
     def clear_save_data(self):
         res = self.ui.render(self.clear_data)
         if res == "y":
-            self.save_slots = [self.slot_1, self.slot_2, self.slot_3]
+            self.save_slots = [self.blank, self.blank, self.blank]
         self.main_menu()
 
     def main_menu(self):
