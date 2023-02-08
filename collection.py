@@ -2,7 +2,7 @@ class Collection:
     def __new__(cls, *args):
         return super(Collection, cls).__new__(cls)
 
-    def __init__(self, items={}):
+    def __init__(self, items):
         self.items = items
 
     def get_all(self):
