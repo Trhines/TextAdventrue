@@ -23,8 +23,13 @@ class UI_handler:
         
     def render(self, element, check_commands = lambda res: True):
         if isinstance(element.prompt, list):
-            for i in element.prompt:
-                print(i)
+            if isinstance(element.validator, int):
+                numbered = [str(x[0]) + "-" + x[1] for x in list(enumerate(element.prompt, 1))]
+                for i in numbered:
+                    print(i)
+            else:
+                for i in element.prompt:
+                    print(i)
         else:
             print(element.prompt)
         

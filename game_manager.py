@@ -6,11 +6,18 @@ class Game_manager:
 
         self.blank = player.Player("Empty")
 
-        self.main_menu_ui = ui_element.UI_element(
-            ["\nEnter a number to select","1-Play game", "2-Clear save data", "3-Exit"],
+        self.main_menu_ui_title = ui_element.UI_element(
+            "\nEnter a number to select",
+            False,
+            None,
+            "main_menu_title"
+        )
+
+        self.main_menu_ui_options = ui_element.UI_element(
+            ["Play game", "Clear save data", "Exit"],
             True,
             3,
-            "main_menu"
+            "main_menu_options"
         )
 
         self.select_save_slot_menu = ui_element.UI_element(
@@ -163,7 +170,7 @@ class Game_manager:
 
     def select_save_slot(self):
         slots = self.save_slots_ui
-        user_names = [str(slot[0]) + "-" + slot[1].name for slot in list(enumerate(self.save_slots, 1))]
+        user_names = [slot.name for slot in self.save_slots]
         slots.set_prompt(user_names)
         slots.set_validator(len(user_names))
         self.ui.render(self.select_save_slot_menu, self.menu_commands)
@@ -182,7 +189,8 @@ class Game_manager:
 
     def main_menu(self):
         self.no_current_player()
-        res = self.ui.render(self.main_menu_ui, self.menu_commands)
+        self.ui.render(self.main_menu_ui_title)
+        res = self.ui.render(self.main_menu_ui_options)
         if res == "1":
             self.select_save_slot()
 
