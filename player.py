@@ -5,7 +5,7 @@ class Player:
     def __new__(cls, *args):
         return super(Player, cls).__new__(cls)
 
-    def __init__(self, name, ui_handler=None, ui_elements=None):
+    def __init__(self, name, ui_handler=None, new_game=True, ui_elements=None):
         
         self.leave_game = ui_element.UI_element(
             "Return to main menu?",
@@ -33,6 +33,7 @@ class Player:
             "a normal table",
             "you cut the table into two halves"
             )
+        
         self.table_halves = item.Item(
             "table_halves",
             "a table cut into two halves",
@@ -40,6 +41,7 @@ class Player:
             "You put the two halves together and create a hole.",
             "The hole is quite large."
               ])
+        
         self.hole = item.Item(
             "hole",
             "a rather large hole",
@@ -49,9 +51,8 @@ class Player:
             ])
         
         
-        
+        self.new_game = new_game
         self.name = name
-        
         self.inventory = self.Collection(self.name, "inventory", {})
         self.environment = self.Collection(self.name, "environment",{self.table_with_mirror.key: self.table_with_mirror})
         self.ui = ui_handler
@@ -72,9 +73,7 @@ class Player:
             
         def get_all_descriptions(self):
             all_items = self.items.values()
-            def get_des(item):
-                return item.description
-            descriptions = map(get_des,all_items)
+            descriptions = [item.description for item in all_items]
             return list(descriptions)
         
         def get_item(self, key):
@@ -85,19 +84,24 @@ class Player:
         
         def remove_item(self, item):
             return self.items.pop(item.key)
+        
+    def has_progressed(self):
+        self.new_game = False
 
     def view_collection(self, collection, intro):
         all_descriptions = collection.get_all_descriptions()
+        if len(all_descriptions) == 0:
+            all_descriptions.append("nothing")
         all_descriptions.insert(0, intro)
         descriptions = ui_element.UI_element(all_descriptions)
         self.ui.render(descriptions)
 
     def view_environment(self):
-        self.view_collection(self.environment, "You see")
+        self.view_collection(self.environment, "\nYou see")
         return False
 
     def view_inventory(self):
-        self.view_collection(self.inventory, "You have")
+        self.view_collection(self.inventory, "\nYou have")
         return False
 
     def use_item(self, collection, ref, fail_msg):
@@ -126,6 +130,7 @@ class Player:
                     self.environment.add_item(self.saw)
                     self.environment.remove_item(self.table_with_mirror)
                     self.environment.add_item(self.table)
+                    self.has_progressed()
                     return False
             
             case "take the saw":

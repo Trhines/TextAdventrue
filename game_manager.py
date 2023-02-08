@@ -50,6 +50,15 @@ class Game_manager:
             "clear_data"
         )
 
+        self.game_intro = ui_element.UI_element(
+            [
+             "\nYou are in a house with no windows and doors.",
+             "All you see is a table with a mirror on it.",
+             "Your goal is to escape",
+             "What do you do?"
+             ]
+        )
+
         self.action_loop_ui = ui_element.UI_element(
             "",
             True,
@@ -94,6 +103,7 @@ class Game_manager:
         match input:
             case "default":
                 print(self.default_environment)
+
             case "slots":
                 for slot in self.save_slots:
                     print(slot.name)
@@ -128,8 +138,11 @@ class Game_manager:
 
     def start_game(self):
         player = self.get_current_player()
-        player.take_action("look around")
-        player.take_action("i")
+        if player.new_game:
+            self.ui.render(self.game_intro)
+        else:
+            player.take_action("look around")
+            player.take_action("i")
         self.action_loop(player)
 
     def confirm_player(self, index):
@@ -152,10 +165,9 @@ class Game_manager:
 
     def select_save_slot(self):
         slots = self.save_slots_ui
-        user_names = [str(self.save_slots.index(user)+1) + "-" + user.name for user in self.save_slots]
+        user_names = [str(slot[0]) + "-" + slot[1].name for slot in list(enumerate(self.save_slots, 1))]
         slots.set_prompt(user_names)
         slots.set_validator(len(user_names))
-
         self.ui.render(self.select_save_slot_menu, self.menu_commands)
         res = self.ui.render(slots, self.menu_commands)
         index = int(res)-1
