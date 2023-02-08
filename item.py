@@ -1,22 +1,34 @@
 class Item():
-    def __init__(self, name):
-      self.name = name
+    def __new__(cls, *args):
+        return super(Item, cls).__new__(cls)
     
-    def use_item():
-      print("this is a place holder func and should be replaced in child classes")
+    def __init__(self, key, description, interaction):
+      self.key = key
+      self.description = description
+      self.interaction = interaction
 
-class Saw(Item):
-    def use_item():
-      print("You use the saw to cut the table in half")
+# class Table_with_mirror(Item):
+#     def __init__(self):
+#       self.key = "table_with_mirror"
+#       self.description = "a table with a mirror on it"
+      
+# class Saw(Item):
+#     def __init__(self):
+#       self.key = "saw"
+#       self.description = "a saw"
 
-class Table_halves(Item):
-    def use_item():
-      print("you put the two halves together and create a hole")
+# class Table_halves(Item):
+#     def __init__(self):
+#       self.key = "table_halves"
+#       self.description = "a table cut into two halves"
 
-class Hole(Item):
-    def use_item():
-      print("you climb in the hole, under the house, and out")
+# class Hole(Item):
+#     def __init__(self):
+#       self.key = "hole"
+#       self.description = "a very dark hole"
 
-class Mirror(Item):
-    def use_item(self):
-      print("you look into the mirror and see what you saw")
+# class Mirror(Item):
+#     def __init__(self):
+#       self.key = "Mirror"
+#       self.description = "a mirror"
+    
